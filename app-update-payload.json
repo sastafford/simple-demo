@@ -1,0 +1,1 @@
+{"config":{"command":["streamlit","run","app.py"],"env":[{"name":"DATABRICKS_WAREHOUSE_ID","valueFrom":"sql-warehouse"},{"name":"DEMO_TABLE","value":"workspace.simple_demo.daily_trip_summary"}]}}

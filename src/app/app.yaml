@@ -1,0 +1,16 @@
+command:
+  - streamlit
+  - run
+  - app.py
+
+env:
+  - name: DATABRICKS_WAREHOUSE_ID
+    valueFrom: sql-warehouse
+  - name: DEMO_TABLE
+    value: workspace.simple_demo.daily_trip_summary
+
+resources:
+  - name: sql-warehouse
+    sql_warehouse:
+      id: dfa0999ca36feaa8
+      permission: CAN_USE

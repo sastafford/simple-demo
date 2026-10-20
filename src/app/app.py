@@ -8,8 +8,11 @@ from databricks.sdk.core import Config
 # Credentials come from the app's own service principal, injected by the platform.
 # Nothing in this code holds a secret.
 cfg = Config()
-WAREHOUSE_ID = os.environ["DATABRICKS_WAREHOUSE_ID"]
-TABLE = os.environ["DEMO_TABLE"]
+# When the app.yaml config uses valueFrom (camelCase), the platform injects these
+# automatically. The fallbacks below let the app start even if the config update
+# hasn't been applied yet (e.g. before the next bundle deploy).
+WAREHOUSE_ID = os.environ.get("DATABRICKS_WAREHOUSE_ID", "dfa0999ca36feaa8")
+TABLE = os.environ.get("DEMO_TABLE", "workspace.simple_demo.daily_trip_summary")
 
 
 @st.cache_data(ttl=300)

@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # Fails the job if the pipeline produced no output, so a bad run is visible in the job history.
 
 dbutils.widgets.text("catalog", "workspace")
