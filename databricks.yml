@@ -1,0 +1,35 @@
+# simple-demo
+#
+# One bundle that deploys a small end-to-end Databricks project:
+#   schema -> declarative pipeline -> job -> app (dashboard is captured from the UI; see README.md)
+#
+# Built to fit Free Edition limits: serverless only, one pipeline, two job tasks, one app.
+#
+#   databricks bundle validate -p <profile>
+#   databricks bundle deploy   -p <profile>
+#   databricks bundle run simple_demo_job -p <profile>
+#   databricks bundle run simple_demo_app -p <profile>
+
+bundle:
+  name: simple-demo
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog that holds the demo schema (Free Edition default is "workspace")
+    default: workspace
+  schema:
+    description: Schema created and owned by this bundle
+    default: simple_demo
+  warehouse_id:
+    description: SQL warehouse used by the app and the dashboard
+    lookup:
+      warehouse: Serverless Starter Warehouse
+
+targets:
+  # No "mode: development" on purpose. Development mode prefixes resource names
+  # with the user's name, which makes the names on screen harder to read during the demo.
+  dev:
+    default: true

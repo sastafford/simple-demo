@@ -1,0 +1,22 @@
+resources:
+  apps:
+    simple_demo_app:
+      name: simple-demo-app
+      description: Read-only view of the daily trip summary built by the simple-demo pipeline.
+      source_code_path: ../src/app
+
+      # The app runs as its own service principal. It can only use what is listed here
+      # plus what is explicitly granted in Unity Catalog (see README.md, step 3).
+      resources:
+        - name: sql-warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+
+      config:
+        command: ["streamlit", "run", "app.py"]
+        env:
+          - name: DATABRICKS_WAREHOUSE_ID
+            value_from: sql-warehouse
+          - name: DEMO_TABLE
+            value: ${var.catalog}.${var.schema}.daily_trip_summary

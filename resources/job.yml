@@ -1,0 +1,24 @@
+resources:
+  jobs:
+    simple_demo_job:
+      name: simple-demo-job
+      tasks:
+        - task_key: refresh_pipeline
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.trips_pipeline.id}
+
+        # No cluster is specified, so the notebook task runs on serverless compute.
+        - task_key: validate_output
+          depends_on:
+            - task_key: refresh_pipeline
+          notebook_task:
+            notebook_path: ../src/notebooks/validate.py
+            base_parameters:
+              catalog: ${var.catalog}
+              schema: ${var.schema}
+
+      # Shows scheduling without consuming Free Edition quota. Unpause in the UI if asked.
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: America/New_York
+        pause_status: PAUSED

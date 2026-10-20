@@ -1,0 +1,12 @@
+resources:
+  pipelines:
+    trips_pipeline:
+      name: simple-demo-trips
+      catalog: ${var.catalog}
+      # Referencing the schema resource makes the bundle create the schema first.
+      schema: ${resources.schemas.demo_schema.name}
+      serverless: true
+      channel: CURRENT
+      libraries:
+        - file:
+            path: ../src/pipeline/trips.sql
